@@ -1,6 +1,7 @@
 import React from "react";
 
 const BotSpecs = props => {
+  debugger
   let { bot } = props;
 
   let botType;
