@@ -1,5 +1,6 @@
 import React from "react";
 import BotCollection from "./BotCollection"
+import BotSpecs from "../components/BotSpecs"
 import YourBotArmy from "./YourBotArmy"
 
 class BotsPage extends React.Component {
@@ -7,9 +8,9 @@ class BotsPage extends React.Component {
   state = {
     bots: [],
     army: [],
+    botClicked: false,
+    clickedBot: {},
   }
-
-  // BOTS_URL = 'https://bot-battler-api.herokuapp.com/api/v1/bots'
 
   componentDidMount() {
     fetch('https://bot-battler-api.herokuapp.com/api/v1/bots')
@@ -19,12 +20,32 @@ class BotsPage extends React.Component {
 
   addToArmy = (changeBot) => {
     let armyCopy = [...this.state.army]
-    if (armyCopy.filter(bot => bot.id == changeBot.id).length < 1) {
+    if (armyCopy.filter(bot => bot.id === changeBot.id).length < 1) {
       armyCopy.push(changeBot)
       this.setState({ army: armyCopy})
     } else {
       armyCopy = armyCopy.filter(bot => bot.id !== changeBot.id)
       this.setState({ army: armyCopy})
+    }
+  }
+
+  showBot =( bot )=> {
+    this.setState({ 
+      botClicked: !this.state.botClicked,
+      clickedBot: bot,
+    })
+  }
+
+  whatToRender = () => {
+    if (this.state.botClicked) {
+      return <BotSpecs 
+        clickedBot={this.state.clickedBot}
+        showBot={this.showBot}/>
+    } else {
+      return <BotCollection 
+          bots={this.state.bots} 
+          showBot={this.showBot}
+        />
     }
   }
 
@@ -35,10 +56,7 @@ class BotsPage extends React.Component {
           army={this.state.army}
           addToArmy={this.addToArmy}
         />
-        <BotCollection 
-          bots={this.state.bots} 
-          addToArmy={this.addToArmy}
-        />
+        {this.whatToRender()}
       </div>
     );
   }

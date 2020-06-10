@@ -7,7 +7,7 @@ const BotCollection =(props)=> {
 		let bots = props.bots
 		return bots.map(bot => <BotCard key={bot.id} 
 										bot={bot} 
-										addToArmy={props.addToArmy}/>)
+										showBot={props.showBot}/>)
 	}
   	return (
   	  <div className="ui four column grid">
