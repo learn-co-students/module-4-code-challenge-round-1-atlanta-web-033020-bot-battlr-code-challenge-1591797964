@@ -1,6 +1,7 @@
 import React from "react";
 
 const BotCard = props => {
+  console.log(props)
   const { bot } = props;
 
   let botType;
